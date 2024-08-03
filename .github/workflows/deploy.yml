@@ -10,22 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up SSH
-      run: |
-        echo "${{ secrets.PI_SSH_PRIVATE_KEY }}" > private_key.pem
-        chmod 600 private_key.pem
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.PI_SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
 
-    - name: Deploy to Raspberry Pi
-      env:
-        PI_USER: pi
-        PI_HOST: 192.168.0.107 # Change this to your Raspberry Pi's IP address
-        PI_PATH: /var/www/html # Path where Apache serves files
-      run: |
-        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i private_key.pem" ./ ${PI_USER}@${PI_HOST}:${PI_PATH}
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ${PI_USER}@${PI_HOST} 'sudo systemctl restart apache2'
+      - name: Deploy using SCP
+        env:
+          PI_USER: pi
+          PI_HOST: 192.168.0.107  # Replace with your Raspberry Pi's IP address
+          PI_PATH: /var/www/html  # Change to the desired deployment path
+        run: |
+          scp -o StrictHostKeyChecking=no -i private_key.pem -r ./ ${PI_USER}@${PI_HOST}:${PI_PATH}
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${PI_USER}@${PI_HOST} 'sudo systemctl restart apache2'
 
-    - name: Clean up
-      run: rm private_key.pem
+      - name: Clean up
+        run: rm private_key.pem
