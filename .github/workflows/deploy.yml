@@ -20,4 +20,4 @@ jobs:
 
       - name: Deploy to Raspberry Pi
         run: |
-          ssh pi@192.168.0.107 "cd /var/www/html/myapp && git pull origin main && sudo systemctl restart apache2"
+          ssh pi@192.168.0.107 "cd /var/www/html/rpirepo && git pull origin main && sudo systemctl restart apache2"
