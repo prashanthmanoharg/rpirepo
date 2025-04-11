@@ -1,9 +1,11 @@
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
+import os
 
-scope = ["https://www.googleapis.com/auth/spreadsheets"]
-creds = Credentials.from_service_account_file("/home/rpi/shared/expense_trackerapp/app/plenary-utility-444815-g1-08f401bc6c68.json", scopes=scope)
+scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+json_key_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+creds = Credentials.from_service_account_file(json_key_path, scopes=scope)
 client = gspread.authorize(creds)
 spreadsheet = client.open_by_key("1AccUH_X1SSLCtIFv9pUHxfq4CQhTpsumIokUZfL87bY")
 sheet = spreadsheet.worksheet("Expenses")
