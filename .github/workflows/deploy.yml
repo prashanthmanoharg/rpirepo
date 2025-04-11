@@ -3,7 +3,7 @@ name: Deploy to Raspberry Pi
 on:
   push:
     branches:
-      - main  # or whichever branch you use
+      - dev  # or whichever branch you use
 
 jobs:
   deploy:
