@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-   runs-on: self-hosted  # Specify the label for the self-hosted runner
+    runs-on: [self-hosted, rpi]  # Ensures the job runs on the self-hosted Raspberry Pi runner
 
     steps:
     - name: Checkout Code
@@ -17,7 +17,7 @@ jobs:
       run: |
         python3 -m venv venv
         source venv/bin/activate
-        pip install -r requirements.txt
+        
 
     - name: Deploy to Raspberry Pi
       run: |
