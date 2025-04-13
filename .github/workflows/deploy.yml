@@ -22,8 +22,8 @@ jobs:
     - name: Deploy to Raspberry Pi
       run: |
         set -e
-        cd /home/pi/rpirepo
+        cd /home/rpi/rpirepo
         git fetch origin main
         git reset --hard origin/main
-        source venv/bin/activate
+        source myenv/bin/activate
         sudo systemctl restart flaskapp
