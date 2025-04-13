@@ -1,3 +1,22 @@
-
+# Ignore common virtual environment folders
 venv/
+env/
+myenv/
+.venv/
+
+# Ignore Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ignore pip environment files
+*.egg-info/
+.eggs/
+*.egg
+
+# VSCode settings (optional, if you use VSCode)
+.vscode/
+
+# MacOS system file (optional)
+.DS_Store
 
