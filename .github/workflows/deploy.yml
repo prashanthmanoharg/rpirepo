@@ -1,0 +1,37 @@
+name: Deploy to Raspberry Pi
+
+on:
+  push:
+    branches:
+      - main  # Trigger only when code is pushed to main (e.g., after PR merge)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Raspberry Pi
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PI_HOST }}
+          username: ${{ secrets.PI_USER }}
+          key: ${{ secrets.PI_SSH_KEY }}
+          script: |
+            set -e  # Exit if any command fails
+
+            cd /home/rpi/rpirepo
+
+            echo "Pulling latest changes from main branch..."
+            git fetch origin
+            git reset --hard origin/main
+
+            echo "Activating virtual environment..."
+            source venv/bin/activate
+
+            echo "Restarting Flask service..."
+            sudo systemctl restart flaskapp.service
+
+            echo "✅ Deployment complete!"
