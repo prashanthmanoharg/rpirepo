@@ -7,22 +7,23 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, rpi]  # Specify the label for the self-hosted runner
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Deploy to Raspberry Pi via SSH
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.PI_HOST }}
-        username: ${{ secrets.PI_USER }}
-        key: ${{ secrets.PI_SSH_KEY }}
-        script: |
-          set -e
-          cd /home/pi/rpirepo
-          git fetch origin main
-          git reset --hard origin/main
-          source venv/bin/activate
-          sudo systemctl restart flaskapp
+    - name: Set up Python environment
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Deploy to Raspberry Pi
+      run: |
+        set -e
+        cd /home/pi/rpirepo
+        git fetch origin main
+        git reset --hard origin/main
+        source venv/bin/activate
+        sudo systemctl restart flaskapp
