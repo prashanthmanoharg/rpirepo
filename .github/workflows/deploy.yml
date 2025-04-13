@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, rpi]  # Ensures the job runs on the self-hosted Raspberry Pi runner
+    runs-on: [self-hosted]  # Ensures the job runs on the self-hosted Raspberry Pi runner
 
     steps:
     - name: Checkout Code
