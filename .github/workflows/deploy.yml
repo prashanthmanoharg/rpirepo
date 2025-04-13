@@ -1,0 +1,29 @@
+name: Deploy to Raspberry Pi
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted]  # Ensures the job runs on the self-hosted Raspberry Pi runner
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Python environment
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate
+        
+
+    - name: Deploy to Raspberry Pi
+      run: |
+        set -e
+        cd /home/rpi/rpirepo
+        git fetch origin main
+        git reset --hard origin/main
+        source myenv/bin/activate
+        sudo systemctl restart flaskapp
