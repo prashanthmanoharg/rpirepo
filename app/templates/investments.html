@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Investments{% endblock %}
 {% block content %}
+<a href="/" class="btn btn-secondary mt-3">Back</a>
+</br>
 <h1>Investments Overview</h1>
 <div>{{ monthly_chart|safe }}</div>
 <div>{{ yearly_chart|safe }}</div>
-<a href="/" class="btn btn-secondary mt-3">Back</a>
 {% endblock %}
